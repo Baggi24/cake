@@ -6,6 +6,12 @@ use Cake\Network\Exception\NotFoundException;
 
 class PostsController extends AppController
 {
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Flash');
+    }
+
     public function index()
     {
         $posts = $this->Posts->find('all');
@@ -44,6 +50,9 @@ class PostsController extends AppController
             throw new NotFoundException(__('Post not found'));
         }
         $post = $this->Posts->get($id);
-        $this->set(compact('posts', 'post'));
+        $this->set(compact('post'));
+    }
+    public function add(){
+
     }
 }
