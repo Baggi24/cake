@@ -52,7 +52,16 @@ class PostsController extends AppController
         $post = $this->Posts->get($id);
         $this->set(compact('post'));
     }
-    public function add(){
-
+    public function add() {
+        $post = $this->Posts->newEntity();
+        if($this->request->is('post')){
+            $post = $this->Posts->patchEntity($post, $this->request->data());
+            if($this->Posts->save($post)){
+                $this->Flash->success(__('Post created.'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('Unable to save post.'));
+        }
+        $this->set(compact('post'));
     }
 }
