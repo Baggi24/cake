@@ -1,0 +1,12 @@
+.my_actions {
+    float: left;
+    width: 16%;
+    list-style-type: none;
+    margin: 0;
+    padding: 20px;
+}
+.content {
+    float: right;
+    width: 80%;
+    border-left: 1px solid #ccc;
+}
