@@ -11,6 +11,7 @@ class PostsTable extends Table
     {
 //        $this->displayField('body');
         $this->addBehavior('Timestamp');
+        $this->belongsTo('Categories');
     }
     public function validationDefault(Validator $validator)
     {

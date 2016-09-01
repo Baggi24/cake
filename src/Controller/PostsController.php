@@ -11,7 +11,6 @@ class PostsController extends AppController
         parent::initialize();
         $this->loadComponent('Flash');
     }
-
     public function index()
     {
         $posts = $this->Posts->find('all');
@@ -46,13 +45,17 @@ class PostsController extends AppController
 //        $this->set(compact('posts'));
     }
     public function view($id = null) {
-        if(empty($id)){
+        //if(empty($id))
+        if(!$this->Posts->exists(['id' => $id])){
             throw new NotFoundException(__('Post not found'));
         }
         $post = $this->Posts->get($id);
         $this->set(compact('post'));
     }
     public function add() {
+        $categories = $this->Posts->Categories->find('list', ['limit' => 100]);
+        $this->set(compact('categories'));
+
         $post = $this->Posts->newEntity();
         if($this->request->is('post')){
             $post = $this->Posts->patchEntity($post, $this->request->data());
@@ -64,7 +67,33 @@ class PostsController extends AppController
         }
         $this->set(compact('post'));
     }
-    public function delete() {
-        
+    public function delete($id) {
+//        if(!$this->Posts->exists(['id' => $id])){
+//            throw new NotFoundException(__('Post not found'));
+//        }
+        $this->request->allowMethod(['post', 'delete']);
+        $post = $this->Posts->get($id);
+        if($this->Posts->delete($post)) {
+            $this->Flash->success(__('The post number {0} has been deleted', h($id)));
+            return $this->redirect(['action' => 'index']);
+        }
+    }
+    public function edit($id){
+        $categories = $this->Posts->Categories->find('list', ['limit' => 100]);
+        $this->set(compact('categories'));
+
+//        if(!$this->Posts->exists(['id' => $id])){
+//            throw new NotFoundException(__('Post not found'));
+//        }
+        $post = $this->Posts->get($id);
+        if($this->request->is(['post','put'])){
+            $post = $this->Posts->patchEntity($post, $this->request->data());
+            if($this->Posts->save($post)){
+                $this->Flash->success(__('Post updated'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('Post not updated'));
+        }
+        $this->set(compact('post'));
     }
 }
