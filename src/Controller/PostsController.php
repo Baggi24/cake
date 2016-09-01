@@ -64,4 +64,7 @@ class PostsController extends AppController
         }
         $this->set(compact('post'));
     }
+    public function delete() {
+        
+    }
 }
