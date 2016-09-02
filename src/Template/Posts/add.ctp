@@ -1,3 +1,4 @@
+<?php // echo $this->assign('title', 'This is my title') ?>
 <h3>Add Post:</h3>
 <?= $this->element('sidebar'); ?>
 <div class="content">

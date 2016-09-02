@@ -10,11 +10,12 @@ class PostsController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->loadComponent('Flash');
+//        $this->loadComponent('Flash');
     }
-    public function beforeFilter(Event $event) {
+    public function beforeRender(Event $event) {
         parent::beforeFilter($event);
-        $this->viewBuilder()->layout('new_layout');
+        $this->viewBuilder()->theme('NewTheme');
+        $this->viewBuilder()->layout('new_theme');
     }
 
     public function index()
@@ -71,6 +72,7 @@ class PostsController extends AppController
             }
             $this->Flash->error(__('Unable to save post.'));
         }
+        $this->set('title','My title');
         $this->set(compact('post'));
     }
     public function delete($id) {
