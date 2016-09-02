@@ -3,6 +3,7 @@
 <h3>Posts:</h3>
 <?= $this->element('sidebar'); ?>
 <div class="content">
+    <?php if(is_object($posts)): ?>
     <table class="table table-striped">
         <?= $this->Html->tableHeaders([
             'Id','Title','Body','Action'
@@ -19,4 +20,7 @@
             ]); ?>
         <?php endforeach; ?>
     </table>
+    <?php else : ?>
+        <?= $posts; ?>
+    <?php endif; ?>
 </div>

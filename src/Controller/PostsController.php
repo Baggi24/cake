@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Event\Event;
 
 class PostsController extends AppController
 {
@@ -11,11 +12,16 @@ class PostsController extends AppController
         parent::initialize();
         $this->loadComponent('Flash');
     }
+    public function beforeFilter(Event $event) {
+        parent::beforeFilter($event);
+        $this->viewBuilder()->layout('new_layout');
+    }
+
     public function index()
     {
+//        $this->viewBuilder()->layout('new_layout');
         $posts = $this->Posts->find('all');
         $this->set('posts', $posts);
-
 
 //        $this->set('color','pink');
 //        $goods = array(
@@ -95,5 +101,17 @@ class PostsController extends AppController
             $this->Flash->error(__('Post not updated'));
         }
         $this->set(compact('post'));
+    }
+    public function search($search = null) {
+        if(!$search) {
+            $this->set('posts', 'Search not entered...');
+        }
+        else {
+            $posts = $this->Posts->find('all', [
+                'conditions' => array('Posts.title LIKE' => '%' . $search . '%')
+            ]);
+            $this->set('posts', $posts);
+        }
+        $this->render('index');
     }
 }
