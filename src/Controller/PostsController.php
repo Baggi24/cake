@@ -66,6 +66,7 @@ class PostsController extends AppController
         $post = $this->Posts->newEntity();
         if($this->request->is('post')){
             $post = $this->Posts->patchEntity($post, $this->request->data());
+            $post->user_id = $this->Auth->user('id');
             if($this->Posts->save($post)){
                 $this->Flash->success(__('Post created.'));
                 return $this->redirect(['action' => 'index']);
@@ -115,5 +116,18 @@ class PostsController extends AppController
             $this->set('posts', $posts);
         }
         $this->render('index');
+    }
+    public function isAuthorized($user)
+    {
+        if($this->request->action === 'add'){
+            return true;
+        }
+        if(in_array($this->request->action, ['edit','delete'])){
+            $postId = (int)$this->request->params['pass'][0];
+            if($this->Posts->isOwnedBy($postId, $user['id'])){
+                return true;
+            }
+        }
+        return parent::isAuthorized($user);
     }
 }

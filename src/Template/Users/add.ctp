@@ -5,7 +5,7 @@
     <?= $this->Form->input('username', ['required' => false]); ?>
     <?= $this->Form->input('password', ['required' => false]); ?>
     <?= $this->Form->select('role',[
-        'options' => ['user' => 'User', 'admin' => 'Admin']]); ?>
+        'Choose role' => ['user' => 'User', 'admin' => 'Admin']]); ?>
     <?= $this->Form->button(__('Register')); ?>
     <?= $this->Form->end(); ?>
 </div>

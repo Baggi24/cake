@@ -39,4 +39,9 @@ class PostsTable extends Table
 
         return $validator;
     }
+    public function isOwnedBy($postId, $userId)
+    {
+        return $this->exists(['id' => $postId, 'user_id' => $userId]);
+    }
+
 }
