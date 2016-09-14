@@ -36,11 +36,11 @@ class AppController extends Controller
         $this->loadComponent('Auth', [
             'authorize' => ['Controller'],
             'loginRedirect' => [
-                'controller' => 'Users',
+                'controller' => 'Posts',
                 'action' => 'index'
             ],
             'logoutRedirect' => [
-                'controller' => 'Users',
+                'controller' => 'Posts',
                 'action' => 'index'
             ],
             'authError' => 'Did you really think you are allowed to see that?',
